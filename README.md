@@ -200,17 +200,17 @@ RNF-08	La interfaz debe ser clara: el usuario debe poder armar y ejecutar una mi
 
 ## Run
 
-Place all files in the same folder and run:
+The source files are split across the pattern folders, so compile all of them from the project root:
 
 ```
-javac *.java
-java Main
+javac -d out *.java "Patron decorator"/*.java "Patron builder"/*.java "Patron prototype"/*.java "Patron abstract factory"/*.java
+java -cp out Main
 ```
 
 `Main` opens the Swing interface (Decorator). To see the creational patterns in the console run:
 
 ```
-java CreationalPatternsDemo
+java -cp out CreationalPatternsDemo
 ```
 
 ## Grupo de Trabajo:
