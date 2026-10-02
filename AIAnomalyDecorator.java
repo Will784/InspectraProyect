@@ -16,4 +16,4 @@ public class AIAnomalyDecorator extends MissionDecorator {
     }
 }
 
-//Commit realizado por Victor Aguilar//
+//script realizado por Victor Aguilar//
