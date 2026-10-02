@@ -64,3 +64,5 @@ public class InspectionFrame extends JFrame {
 } {
     
 }
+
+// Script realizado por: William Cando
