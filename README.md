@@ -68,7 +68,31 @@ mission.execute();
 
 The top of the window shows the decorator chain that was built, and the main area shows the result of each step.
 
-## Requirements
+## Requirements:
+
+ID	Requerimiento
+RF-01	El sistema debe permitir crear una misión de inspección base (InspectionMission) para un tipo de infraestructura.
+RF-02	El usuario debe poder elegir el tipo de infraestructura: puente, túnel o estructura industrial.
+RF-03	El usuario debe poder agregar a la misión el módulo de inspección visual (CameraInspectionDecorator).
+RF-04	El usuario debe poder agregar el módulo de análisis térmico (ThermalInspectionDecorator).
+RF-05	El usuario debe poder agregar el módulo de análisis de vibraciones (VibrationAnalysisDecorator).
+RF-06	El usuario debe poder agregar el módulo de detección de anomalías con IA (AIAnomalyDecorator).
+RF-07	El usuario debe poder agregar el módulo de reporte de cumplimiento (ComplianceReportDecorator).
+RF-08	El sistema debe permitir cualquier combinación de módulos, incluso ninguno.
+RF-09	Los módulos seleccionados deben ejecutarse en un orden fijo: cámara, térmico, vibración, IA y reporte.
+RF-10	El sistema debe mostrar la cadena de la misión construida (por ejemplo: Inspection Mission -> Camera -> Thermal).
+RF-11	Al ejecutar la misión, el sistema debe mostrar el resultado de cada paso en pantalla.
+RF-12	El reporte de cumplimiento debe incluir la cantidad de pasos documentados en la misión.
+Requerimientos no funcionales
+ID	Requerimiento
+RNF-01	El sistema debe estar desarrollado en Java 11 o superior.
+RNF-02	Debe aplicar el patrón de diseño Decorator.
+RNF-03	La interfaz gráfica debe estar hecha con Swing.
+RNF-04	El código y los textos de la interfaz deben estar en inglés.
+RNF-05	El código debe ser simple y no debe contener comentarios.
+RNF-06	Agregar un nuevo módulo de inspección no debe requerir modificar las clases existentes.
+RNF-07	El sistema debe ejecutarse sin librerías externas, solo con el JDK.
+RNF-08	La interfaz debe ser clara: el usuario debe poder armar y ejecutar una misión en pocos clics.
 
 - Java 11 or higher (JDK)
 
