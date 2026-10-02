@@ -2,6 +2,8 @@
 
 A Java application that uses the **Decorator pattern** to build robot inspection missions for bridges, tunnels and industrial structures. The user builds a mission by selecting inspection modules in a Swing interface.
 
+The project also applies three creational patterns on top of the same `InspectionMission` component: **Builder**, **Prototype** and **Abstract Factory**.
+
 ## Real-world case
 
 A company inspects infrastructure using robots. Each type of infrastructure needs a different combination of inspection capabilities, so the mission must be composed dynamically instead of using a class for every possible combination.
@@ -33,6 +35,80 @@ Compliance Report
 
 Any subset of the decorators can be applied, always on top of the basic mission.
 
+## Creational patterns
+
+The three creational patterns create the same decorated `InspectionMission` objects, so they work together with the Decorator instead of replacing it.
+
+### Builder
+
+Builds a mission step by step. The builder keeps the selected modules and always wraps the decorators in the fixed order, no matter the order in which they were added.
+
+| Role | Class |
+|------|-------|
+| Builder | `MissionBuilder` (interface) |
+| Concrete builder | `InspectionMissionBuilder` |
+| Director | `MissionDirector` |
+| Product | `InspectionMission` (decorator chain) |
+| Build steps | `InspectionModule` (enum, one constant per decorator) |
+
+```java
+MissionBuilder builder = new InspectionMissionBuilder();
+InspectionMission audit = new MissionDirector().buildFullAudit(builder, "Tunnel");
+
+InspectionMission custom = builder.reset()
+        .forInfrastructure("Bridge")
+        .withModule(InspectionModule.THERMAL)
+        .withModule(InspectionModule.COMPLIANCE_REPORT)
+        .build();
+```
+
+### Prototype
+
+Mission profiles are stored as templates and cloned every time a new mission is planned. The copy is deep (zones and modules are copied), so editing a clone never changes the template.
+
+| Role | Class |
+|------|-------|
+| Prototype | `MissionPrototype` (interface) |
+| Concrete prototype | `MissionProfile` |
+| Prototype registry | `MissionProfileRegistry` |
+
+```java
+MissionProfileRegistry registry = new MissionProfileRegistry();
+registry.register("bridge-routine", new MissionProfile("Bridge")
+        .addZone("Deck")
+        .addModule(InspectionModule.CAMERA));
+
+MissionProfile custom = registry.create("bridge-routine")
+        .addZone("Pillar 3")
+        .addModule(InspectionModule.AI_ANOMALY);
+InspectionMission mission = custom.toMission(new InspectionMissionBuilder());
+```
+
+### Abstract Factory
+
+Each infrastructure type has its own family of compatible products: a robot, a sensor and a mission.
+
+| Role | Class |
+|------|-------|
+| Abstract factory | `InspectionKitFactory` (interface) |
+| Concrete factories | `BridgeInspectionFactory`, `TunnelInspectionFactory`, `IndustrialInspectionFactory` |
+| Abstract products | `InspectionRobot`, `InspectionSensor`, `InspectionMission` |
+| Concrete robots | `AerialDroneRobot`, `CrawlerRobot`, `ClimbingRobot` |
+| Concrete sensors | `LidarSensor`, `GasSensor`, `UltrasonicSensor` |
+
+| Factory | Robot | Sensor | Mission modules |
+|---------|-------|--------|-----------------|
+| `BridgeInspectionFactory` | `AerialDroneRobot` | `LidarSensor` | Camera, Vibration |
+| `TunnelInspectionFactory` | `CrawlerRobot` | `GasSensor` | Camera, Thermal |
+| `IndustrialInspectionFactory` | `ClimbingRobot` | `UltrasonicSensor` | Thermal, Vibration, AI Anomaly |
+
+```java
+InspectionKitFactory factory = new TunnelInspectionFactory();
+InspectionRobot robot = factory.createRobot();
+InspectionSensor sensor = factory.createSensor();
+InspectionMission mission = factory.createMission();
+```
+
 ## Project files
 
 ```
@@ -46,6 +122,32 @@ ThermalInspectionDecorator.java
 VibrationAnalysisDecorator.java
 AIAnomalyDecorator.java
 ComplianceReportDecorator.java
+CreationalPatternsDemo.java
+
+Patron builder/
+    InspectionModule.java
+    MissionBuilder.java
+    InspectionMissionBuilder.java
+    MissionDirector.java
+
+Patron prototype/
+    MissionPrototype.java
+    MissionProfile.java
+    MissionProfileRegistry.java
+
+Patron abstract factory/
+    InspectionKitFactory.java
+    BridgeInspectionFactory.java
+    TunnelInspectionFactory.java
+    IndustrialInspectionFactory.java
+    InspectionRobot.java
+    AerialDroneRobot.java
+    CrawlerRobot.java
+    ClimbingRobot.java
+    InspectionSensor.java
+    LidarSensor.java
+    GasSensor.java
+    UltrasonicSensor.java
 ```
 
 ## How it works
@@ -103,6 +205,12 @@ Place all files in the same folder and run:
 ```
 javac *.java
 java Main
+```
+
+`Main` opens the Swing interface (Decorator). To see the creational patterns in the console run:
+
+```
+java CreationalPatternsDemo
 ```
 
 ## Grupo de Trabajo:

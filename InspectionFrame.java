@@ -1,4 +1,4 @@
-public import javax.swing.*;
+import javax.swing.*;
 import java.awt.*;
 
 public class InspectionFrame extends JFrame {
@@ -61,8 +61,6 @@ public class InspectionFrame extends JFrame {
         }
         output.setText(text.toString());
     }
-} {
-    
 }
 
 // Script realizado por: William Cando

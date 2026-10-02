@@ -1,4 +1,4 @@
-public import java.util.List;
+import java.util.List;
 
 public class ComplianceReportDecorator extends MissionDecorator {
     public ComplianceReportDecorator(InspectionMission mission) {
