@@ -14,8 +14,6 @@ public class ComplianceReportDecorator extends MissionDecorator {
         log.add("Report: compliance report generated with " + log.size() + " documented steps");
         return log;
     }
-} {
-    
 }
 
 // Script realizado por: William Cando
